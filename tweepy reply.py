@@ -3,7 +3,6 @@ from tweepy import API
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
-from random import randint
 from tweepy import TweepError
 import json
 
@@ -23,7 +22,10 @@ class StdOutListener(StreamListener):
         text = tweet.get('text')
         if "시부린" in text:
             id_str = tweet.get('id_str')
-            api.retweet(id_str)
+            try:
+                api.retweet(id_str)
+            except TweepError as E:
+                print(E)
         return True #if return False, then streaming stops, return True, streaming continues
 
 if __name__ == "__main__":
