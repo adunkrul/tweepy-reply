@@ -20,7 +20,8 @@ class StdOutListener(StreamListener):
         tweet = json.loads(data.strip()
         print(data)
         text = tweet.get('text')
-        if "pic" in text:
+        retweeted_count = tweet.get('retweet_count')
+        if "pic" in text and retweeted_count == 0:
             id_str = tweet.get('id_str')
             try:
                 api.retweet(id_str)
@@ -33,4 +34,4 @@ if __name__ == "__main__":
     auth = OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
     stream = Stream(auth, Listener) 
-    stream.filter(track=['시부린'])
+    stream.filter(track=['your_desired_word'])
